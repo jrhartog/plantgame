@@ -59,7 +59,7 @@ function create() {
     ledge = platforms.create(-150, 250, 'ground');
 
     ledge.body.immovable = true;
-  
+
     // The seedling and its settings
     seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
 
@@ -73,7 +73,7 @@ function create() {
     //  seedling physics properties. Give the little guy a slight bounce.
     seedling.body.bounce.y = 0.2;
     seedling.body.gravity.y = 300;
-    seedling.body.collideWorldBounds = false;
+    seedling.body.collideWorldBounds = true;
     baddie.body.gravity.y = 300;
     baddie.body.collideWorldBounds = false;
     baddie.body.bounce.y = 0.2;
@@ -87,9 +87,6 @@ function create() {
     stars = game.add.group();
 
     stars.enableBody = true;
-
-    // add the baddie
-    baddie = game.add.sprite(32, game.world.height - 165, 'baddie');
 
     //  Here we'll create 12 of them evenly spaced apart
     for (var i = 0; i < 12; i++)
@@ -112,7 +109,7 @@ function create() {
 //              'down' : Phaser.KeyCode.S, 'left' : Phaser.KeyCode.A,
 //              'right' : Phaser.KeyCode.D});
 
-    //game.camera.follow(seedling);
+    game.camera.follow(seedling);
 
 }
 
@@ -177,12 +174,12 @@ function update() {
     {
         seedling.body.velocity.y = -150;
     }
-        game.camera.x = seedling.x;
-        game.camera.y = seedling.y;
+        //game.camera.x = seedling.x;
+        //game.camera.y = seedling.y;
         console.log(seedling.x + "This is x of seedling");
         console.log(seedling.y + "This is y of seedling");
         console.log(game.camera.x + "This is the game camera");
-        console.log(Phaser.Camera.x + "This is the phaser camera");
+
 }
 function collectStar (seedling, star) {
 
