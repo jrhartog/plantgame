@@ -31,7 +31,7 @@ function create() {
     sky = game.add.sprite(0, 0, 'sky');
 
     // trying to add dandelion
-    dandelion = game.add.sprite(400, 0, 'dandelion');
+    dandelion = game.add.sprite(400, 290, 'dandelion');
     dandelion.animations.add('blinking');
     dandelion.animations.play('blinking', 2, true);
 
@@ -69,16 +69,21 @@ function create() {
     //  We need to enable physics on the seedling
     game.physics.arcade.enable(seedling);
     game.physics.arcade.enable(baddie);
+    game.physics.arcade.enable(dandelion);
 
     //  seedling physics properties. Give the little guy a slight bounce.
     seedling.body.bounce.y = 0.2;
     seedling.body.gravity.y = 300;
     seedling.body.collideWorldBounds = true;
     baddie.body.gravity.y = 300;
-    baddie.body.collideWorldBounds = false;
+    baddie.body.collideWorldBounds = true;
     baddie.body.bounce.y = 0.2;
-
     baddie.body.velocity.x = 100;
+
+    dandelion.body.bounce.y = 0.2;
+    dandelion.body.gravity.y = 300;
+    dandelion.body.collideWorldBounds = true;
+    dandelion.body.velocity.x = -100;
 
     //  Our two animations, walking left and right.
     seedling.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -130,6 +135,8 @@ function update() {
     game.physics.arcade.collide(seedling, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
+    game.physics.arcade.collide(dandelion, platforms);
+    game.physics.arcade.collide(seedling, dandelion);
 
     game.physics.arcade.overlap(seedling, stars, collectStar, null, this);
     game.physics.arcade.overlap(seedling, baddie, seedlingDies, null, this);
@@ -195,7 +202,7 @@ function collectStar (seedling, star) {
 function seedlingDies (seedling, baddie) {
 
   seedling.kill();
-  var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "white" };
+  var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
 
   var text = game.add.text(0, 0, "you died :(", style);
   text.anchor.set(0.5);
