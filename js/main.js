@@ -9,11 +9,14 @@ var sky;
 var score = 0;
 var scoreText;
 var dandelion;
+var mushroomguy;
 
 function preload() {
   game.load.image('sky', 'assets/sky.png');
   game.load.image('ground', 'assets/platform.png');
   game.load.image('star', 'assets/star.png');
+  game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
+  'assets/MushroomGuyNew.json')
   game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
@@ -35,6 +38,7 @@ function create() {
     dandelion.animations.add('blinking');
     dandelion.animations.play('blinking', 2, true);
 
+    mushroomguy = game.add.sprite(1000, 200, 'mushroomguy')
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
 
