@@ -6,21 +6,25 @@ var cursors;
 var stars;
 var sky;
 
+var quotes = {'pokemon1':'Pikachu, I choose you!',
+              'pokemon2':'Ya snooze ya lose.'};
+
 var score = 0;
 var scoreText;
 var dandelion;
 var mushroomguy;
+var characters;
 
 function preload() {
   game.load.image('sky', 'assets/sky.png');
   game.load.image('ground', 'assets/platform.png');
   game.load.image('star', 'assets/star.png');
   game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
-  'assets/MushroomGuyNew.json')
+  'assets/MushroomGuyNew.json');
   game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
-  'assets/DandelionEnemyClone.json')
+  'assets/DandelionEnemyClone.json');
 }
 
 function create() {
@@ -41,6 +45,7 @@ function create() {
     mushroomguy = game.add.sprite(1000, 200, 'mushroomguy')
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
+    characters = game.add.group();
 
     //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
@@ -74,6 +79,7 @@ function create() {
     game.physics.arcade.enable(seedling);
     game.physics.arcade.enable(baddie);
     game.physics.arcade.enable(dandelion);
+    game.physics.arcade.enable(mushroomguy);
 
     //  seedling physics properties. Give the little guy a slight bounce.
     seedling.body.bounce.y = 0.2;
@@ -144,6 +150,7 @@ function update() {
 
     game.physics.arcade.overlap(seedling, stars, collectStar, null, this);
     game.physics.arcade.overlap(seedling, baddie, seedlingDies, null, this);
+    game.physics.arcade.overlap(seedling, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
 
     //  Reset the seedlings velocity (movement)
     seedling.body.velocity.x = 0;
@@ -167,7 +174,7 @@ function update() {
       if (characterJumped == false)
       {
         seedling.body.velocity.y = -300;
-        console.log("the guy jumps");
+        //console.log("the guy jumps");
         //character can only jump after it jumps once/lands on gruond??
       }
     }
@@ -187,9 +194,9 @@ function update() {
     }
         //game.camera.x = seedling.x;
         //game.camera.y = seedling.y;
-        console.log(seedling.x + "This is x of seedling");
-        console.log(seedling.y + "This is y of seedling");
-        console.log(game.camera.x + "This is the game camera");
+        //console.log(seedling.x + "This is x of seedling");
+        //console.log(seedling.y + "This is y of seedling");
+        //console.log(game.camera.x + "This is the game camera");
 
 }
 function collectStar (seedling, star) {
@@ -207,11 +214,15 @@ function seedlingDies (seedling, baddie) {
 
   seedling.kill();
   var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
-
   var text = game.add.text(0, 0, "you died :(", style);
   text.anchor.set(0.5);
 
   text.x = 200;
   text.y = 200;
 
+}
+
+function speak (seedling, mushroomguy) {
+
+    console.log(this.text);
 }
