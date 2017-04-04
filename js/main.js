@@ -74,7 +74,7 @@ function create() {
 
     // The seedling and its settings
     seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
-    
+    seedlingBrown = game.add.sprite(32, game.world.height - 240, 'seedlingBrown');
 
     //add dog thing
     baddie = game.add.sprite(96, game.world.height - 200, 'baddie');
@@ -108,6 +108,8 @@ function create() {
     //  Our two animations, walking left and right.
     seedling.animations.add('left', [0, 1, 2, 3], 10, true);
     seedling.animations.add('right', [5, 6, 7, 8], 10, true);
+  
+    seedlingBrown.animations.add('bobble');
 
     stars = game.add.group();
 
@@ -171,14 +173,14 @@ function update() {
         //  Move to the left
         seedlingBrown.body.velocity.x = -150;
 
-        //seedlingBrown.animations.play('left');
+        seedlingBrown.animations.play('bobble');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
         seedlingBrown.body.velocity.x = 150;
 
-        //seedlingBrown.animations.play('right');
+        seedlingBrown.animations.play('bobble');
     }
     else if (cursors.up.isDown)
     {
@@ -193,7 +195,7 @@ function update() {
     else
     {
         //  Stand still
-        //seedling.animations.stop();
+        seedlingBrown.animations.stop();
 
         seedlingBrown.frame = 4;
     }
