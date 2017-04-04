@@ -1,5 +1,6 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 var seedling;
+var seedlingBrown;
 var baddie;
 var platforms;
 var cursors;
@@ -25,6 +26,8 @@ function preload() {
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
   'assets/DandelionEnemyClone.json');
+  game.load.atlasJSONArray('seedlingBrown', 'assets/SeedlingBrown.png',
+                           'assets/SeedlingBrown.json');
 }
 
 function create() {
@@ -71,6 +74,7 @@ function create() {
 
     // The seedling and its settings
     seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
+    
 
     //add dog thing
     baddie = game.add.sprite(96, game.world.height - 200, 'baddie');
