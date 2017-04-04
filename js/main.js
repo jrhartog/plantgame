@@ -4,36 +4,48 @@ var baddie;
 var platforms;
 var cursors;
 var stars;
+var sky;
+
+var quotes = {'pokemon1':'Pikachu, I choose you!',
+              'pokemon2':'Ya snooze ya lose.'};
 
 var score = 0;
 var scoreText;
 var dandelion;
+var mushroomguy;
+var characters;
 
 function preload() {
   game.load.image('sky', 'assets/sky.png');
   game.load.image('ground', 'assets/platform.png');
   game.load.image('star', 'assets/star.png');
+  game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
+  'assets/MushroomGuyNew.json');
   game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
-  game.load.atlasJSONArray('dandelion', 'assets/Dandelion Enemy Clone.png',
-  'assets/Dandelion Enemy Clone.json')
+  game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
+  'assets/DandelionEnemyClone.json');
 }
 
 function create() {
+
+    game.world.setBounds(0, 0, 2000, 600);
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    game.add.sprite(0, 0, 'sky');
+    sky = game.add.sprite(0, 0, 'sky');
 
     // trying to add dandelion
-    dandelion = game.add.sprite(400, 0, 'dandelion');
+    dandelion = game.add.sprite(400, 290, 'dandelion');
     dandelion.animations.add('blinking');
     dandelion.animations.play('blinking', 2, true);
 
+    mushroomguy = game.add.sprite(1000, 200, 'mushroomguy')
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = game.add.group();
+    characters = game.add.group();
 
     //  We will enable physics for any object that is created in this group
     platforms.enableBody = true;
@@ -42,7 +54,8 @@ function create() {
     var ground = platforms.create(0, game.world.height - 64, 'ground');
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    ground.scale.setTo(2, 2);
+    ground.scale.setTo(5, 2);
+    sky.scale.setTo(4, 2);
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
@@ -65,6 +78,8 @@ function create() {
     //  We need to enable physics on the seedling
     game.physics.arcade.enable(seedling);
     game.physics.arcade.enable(baddie);
+    game.physics.arcade.enable(dandelion);
+    game.physics.arcade.enable(mushroomguy);
 
     //  seedling physics properties. Give the little guy a slight bounce.
     seedling.body.bounce.y = 0.2;
@@ -73,8 +88,12 @@ function create() {
     baddie.body.gravity.y = 300;
     baddie.body.collideWorldBounds = true;
     baddie.body.bounce.y = 0.2;
-
     baddie.body.velocity.x = 100;
+
+    dandelion.body.bounce.y = 0.2;
+    dandelion.body.gravity.y = 300;
+    dandelion.body.collideWorldBounds = true;
+    dandelion.body.velocity.x = -100;
 
     //  Our two animations, walking left and right.
     seedling.animations.add('left', [0, 1, 2, 3], 10, true);
@@ -98,14 +117,18 @@ function create() {
     }
 
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    scoreText.fixedToCamera = true;
 
     cursors = game.input.keyboard.createCursorKeys();
 //    cursors = game.input.keyboard.addKeys({'up' : Phaser.KeyCode.W,
 //              'down' : Phaser.KeyCode.S, 'left' : Phaser.KeyCode.A,
 //              'right' : Phaser.KeyCode.D});
+
+    game.camera.follow(seedling);
+
 }
 
-var characterJumped = false;
+var characterJumped = false
 //so that the character can only jump once?
 function update() {
     //  Collide the seedling and the stars with the platforms
@@ -122,9 +145,12 @@ function update() {
     game.physics.arcade.collide(seedling, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
+    game.physics.arcade.collide(dandelion, platforms);
+    game.physics.arcade.collide(seedling, dandelion);
 
     game.physics.arcade.overlap(seedling, stars, collectStar, null, this);
     game.physics.arcade.overlap(seedling, baddie, seedlingDies, null, this);
+    game.physics.arcade.overlap(seedling, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
 
     //  Reset the seedlings velocity (movement)
     seedling.body.velocity.x = 0;
@@ -148,7 +174,7 @@ function update() {
       if (characterJumped == false)
       {
         seedling.body.velocity.y = -300;
-        console.log("the guy jumps");
+        //console.log("the guy jumps");
         //character can only jump after it jumps once/lands on gruond??
       }
     }
@@ -166,8 +192,13 @@ function update() {
     {
         seedling.body.velocity.y = -150;
     }
+        //game.camera.x = seedling.x;
+        //game.camera.y = seedling.y;
+        //console.log(seedling.x + "This is x of seedling");
+        //console.log(seedling.y + "This is y of seedling");
+        //console.log(game.camera.x + "This is the game camera");
 
-};
+}
 function collectStar (seedling, star) {
 
     // Removes the star from the screen
@@ -178,16 +209,21 @@ function collectStar (seedling, star) {
     scoreText.text = 'Score: ' + score;
 
 
-};
+}
 function seedlingDies (seedling, baddie) {
 
   seedling.kill();
-  var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "white" };
-
+  var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
   var text = game.add.text(0, 0, "you died :(", style);
   text.anchor.set(0.5);
 
   text.x = 200;
   text.y = 200;
 
-};
+}
+
+function speak (seedling, mushroomguy) {
+
+    console.log(this.text);
+}
+
