@@ -73,23 +73,23 @@ function create() {
     ledge.body.immovable = true;
 
     // The seedling and its settings
-    seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
-    seedlingBrown = game.add.sprite(32, game.world.height - 240, 'seedlingBrown');
+    //seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
+    seedlingBrown = game.add.sprite(32, game.world.height - 200, 'seedlingBrown');
 
     //add dog thing
     baddie = game.add.sprite(96, game.world.height - 200, 'baddie');
 
     //  We need to enable physics on the seedling
-    game.physics.arcade.enable(seedling);
+    //game.physics.arcade.enable(seedling);
     game.physics.arcade.enable(seedlingBrown);
     game.physics.arcade.enable(baddie);
     game.physics.arcade.enable(dandelion);
     game.physics.arcade.enable(mushroomguy);
 
     //  seedling physics properties. Give the little guy a slight bounce.
-    seedling.body.bounce.y = 0.2;
-    seedling.body.gravity.y = 300;
-    seedling.body.collideWorldBounds = true;
+    //seedling.body.bounce.y = 0.2;
+    //seedling.body.gravity.y = 300;
+    //seedling.body.collideWorldBounds = true;
   
     seedlingBrown.body.bounce.y = 0.2;
     seedlingBrown.body.gravity.y = 300;
@@ -106,8 +106,8 @@ function create() {
     dandelion.body.velocity.x = -100;
 
     //  Our two animations, walking left and right.
-    seedling.animations.add('left', [0, 1, 2, 3], 10, true);
-    seedling.animations.add('right', [5, 6, 7, 8], 10, true);
+    //seedling.animations.add('left', [0, 1, 2, 3], 10, true);
+    //seedling.animations.add('right', [5, 6, 7, 8], 10, true);
   
     seedlingBrown.animations.add('bobble', 8, true);
 
@@ -136,7 +136,7 @@ function create() {
 //              'down' : Phaser.KeyCode.S, 'left' : Phaser.KeyCode.A,
 //              'right' : Phaser.KeyCode.D});
 
-    game.camera.follow(seedling);
+    game.camera.follow(seedlingBrown);
 
 }
 
@@ -154,7 +154,7 @@ function update() {
     {
       baddie.body.velocity.x = 100;
     }
-    game.physics.arcade.collide(seedling, platforms);
+    //game.physics.arcade.collide(seedling, platforms);
     game.physics.arcade.collide(seedlingBrown, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
