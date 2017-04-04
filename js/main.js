@@ -74,7 +74,7 @@ function create() {
 
     // The seedling and its settings
     //seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
-    seedlingBrown = game.add.sprite(32, game.world.height - 200, 'seedlingBrown');
+    seedlingBrown = game.add.sprite(32, game.world.height - 420, 'seedlingBrown');
 
     //add dog thing
     baddie = game.add.sprite(96, game.world.height - 200, 'baddie');
