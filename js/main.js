@@ -81,6 +81,7 @@ function create() {
 
     //  We need to enable physics on the seedling
     game.physics.arcade.enable(seedling);
+    game.physics.arcade.enable(seedlingBrown);
     game.physics.arcade.enable(baddie);
     game.physics.arcade.enable(dandelion);
     game.physics.arcade.enable(mushroomguy);
@@ -89,6 +90,11 @@ function create() {
     seedling.body.bounce.y = 0.2;
     seedling.body.gravity.y = 300;
     seedling.body.collideWorldBounds = true;
+  
+    seedlingBrown.body.bounce.y = 0.2;
+    seedlingBrown.body.gravity.y = 300;
+    seedlingBrown.body.collideWorldBounds = true;
+  
     baddie.body.gravity.y = 300;
     baddie.body.collideWorldBounds = true;
     baddie.body.bounce.y = 0.2;
@@ -147,37 +153,38 @@ function update() {
       baddie.body.velocity.x = 100;
     }
     game.physics.arcade.collide(seedling, platforms);
+    game.physics.arcade.collide(seedlingBrown, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
     game.physics.arcade.collide(dandelion, platforms);
-    game.physics.arcade.collide(seedling, dandelion);
+    game.physics.arcade.collide(seedlingBrown, dandelion);
 
-    game.physics.arcade.overlap(seedling, stars, collectStar, null, this);
-    game.physics.arcade.overlap(seedling, baddie, seedlingDies, null, this);
-    game.physics.arcade.overlap(seedling, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
+    game.physics.arcade.overlap(seedlingBrown, stars, collectStar, null, this);
+    game.physics.arcade.overlap(seedlingBrown, baddie, seedlingDies, null, this);
+    game.physics.arcade.overlap(seedlingBrown, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
 
     //  Reset the seedlings velocity (movement)
-    seedling.body.velocity.x = 0;
+    seedlingBrown.body.velocity.x = 0;
 
     if (cursors.left.isDown)
     {
         //  Move to the left
-        seedling.body.velocity.x = -150;
+        seedlingBrown.body.velocity.x = -150;
 
-        seedling.animations.play('left');
+        //seedlingBrown.animations.play('left');
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
-        seedling.body.velocity.x = 150;
+        seedlingBrown.body.velocity.x = 150;
 
-        seedling.animations.play('right');
+        //seedlingBrown.animations.play('right');
     }
     else if (cursors.up.isDown)
     {
       if (characterJumped == false)
       {
-        seedling.body.velocity.y = -300;
+        seedlingBrown.body.velocity.y = -300;
         //console.log("the guy jumps");
         //character can only jump after it jumps once/lands on gruond??
       }
@@ -186,15 +193,15 @@ function update() {
     else
     {
         //  Stand still
-        seedling.animations.stop();
+        //seedling.animations.stop();
 
-        seedling.frame = 4;
+        seedlingBrown.frame = 4;
     }
 
     //  Allow the seedling to jump if they are touching the ground.
-    if (cursors.up.isDown && seedling.body.touching.down)
+    if (cursors.up.isDown && seedlingBrown.body.touching.down)
     {
-        seedling.body.velocity.y = -150;
+        seedlingBrown.body.velocity.y = -150;
     }
         //game.camera.x = seedling.x;
         //game.camera.y = seedling.y;
