@@ -173,14 +173,14 @@ function update() {
         //  Move to the left
         seedlingBrown.body.velocity.x = -150;
 
-        seedlingBrown.animations.play('bobble');
+        seedlingBrown.animations.play('bobble', 8, true);
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
         seedlingBrown.body.velocity.x = 150;
 
-        seedlingBrown.animations.play('bobble');
+        seedlingBrown.animations.play('bobble', 8, true);
     }
     else if (cursors.up.isDown)
     {
