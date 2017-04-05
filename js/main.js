@@ -207,8 +207,8 @@ function update() {
     }
         //game.camera.x = seedling.x;
         //game.camera.y = seedling.y;
-        console.log(seedlingBrown.x + "This is x of seedlingBrown");
-        //console.log(seedling.y + "This is y of seedling");
+        console.log("seedlingBrown.x: " + seedlingBrown.x);
+        console.log("seedlingBrown.y: " + seedlingBrown.y);
         //console.log(game.camera.x + "This is the game camera");
 
 }
