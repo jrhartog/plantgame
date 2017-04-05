@@ -109,7 +109,7 @@ function create() {
     //seedling.animations.add('left', [0, 1, 2, 3], 10, true);
     //seedling.animations.add('right', [5, 6, 7, 8], 10, true);
   
-    seedlingBrown.animations.add('bobble', 8, true);
+    seedlingBrown.animations.add('bobble');
 
     stars = game.add.group();
 
