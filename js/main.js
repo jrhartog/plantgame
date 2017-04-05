@@ -224,7 +224,13 @@ function collectStar (seedling, star) {
 
 }
 function seedlingDies (seedling, baddie) {
-
+  
+  console.log("seedlingBrown.x: " + seedlingBrown.x);
+  console.log("seedlingBrown.y: " + seedlingBrown.y);
+  console.log("seedling.x: " + seedling.x);
+  console.log("seedling.y: " + seedling.y);
+  console.log("baddie.x: " + baddie.x);
+  console.log("baddie.y: " + baddie.y);
   seedling.kill();
   var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
   var text = game.add.text(0, 0, "you died :(", style);
