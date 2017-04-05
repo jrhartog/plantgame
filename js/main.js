@@ -1,5 +1,5 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-var seedling;
+//var seedling;
 var seedlingBrown;
 var baddie;
 var platforms;
@@ -22,7 +22,7 @@ function preload() {
   game.load.image('star', 'assets/star.png');
   game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
   'assets/MushroomGuyNew.json');
-  game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
+  //game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
   'assets/DandelionEnemyClone.json');
@@ -77,7 +77,7 @@ function create() {
     seedlingBrown = game.add.sprite(32, game.world.height - 420, 'seedlingBrown');
 
     //add dog thing
-    baddie = game.add.sprite(96, game.world.height - 200, 'baddie');
+    baddie = game.add.sprite(396, game.world.height - 100, 'baddie');
 
     //  We need to enable physics on the seedling
     //game.physics.arcade.enable(seedling);
@@ -207,7 +207,7 @@ function update() {
     }
         //game.camera.x = seedling.x;
         //game.camera.y = seedling.y;
-        //console.log(seedling.x + "This is x of seedling");
+        console.log(seedlingBrown.x + "This is x of seedlingBrown");
         //console.log(seedling.y + "This is y of seedling");
         //console.log(game.camera.x + "This is the game camera");
 
@@ -238,5 +238,11 @@ function seedlingDies (seedling, baddie) {
 function speak (seedling, mushroomguy) {
 
     console.log(this.text);
+    var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
+    var text = game.add.text(mushroomguy.x + 10, mushroomguy.y + 10, this.text, style);
+    //text.anchor.set(0.5);
+
+    text.x = mushroomguy.x + 10
+    text.y = mushroomguy.y + 10;
 }
 
