@@ -244,7 +244,7 @@ function seedlingDies (seedling, baddie) {
 function speak (seedling, mushroomguy) {
 
     console.log(this.text);
-    var style = { font: "32px Arial", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
+    var style = { font: "12px Sans", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
     var text = game.add.text(mushroomguy.x + 10, mushroomguy.y + 10, this.text, style);
     //text.anchor.set(0.5);
 
