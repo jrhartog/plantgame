@@ -26,8 +26,8 @@ function preload() {
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
   'assets/DandelionEnemyClone.json');
-  game.load.atlasJSONArray('seedlingBrown', 'assets/SeedlingBrown\ \(2\).png',
-                           'assets/SeedlingBrown\ \(1\).json');
+  game.load.atlasJSONArray('seedlingBrown', 'assets/SeedlingBrown.png',
+                           'assets/SeedlingBrown.json');
 }
 
 function create() {
