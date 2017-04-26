@@ -36,7 +36,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    sky = game.add.sprite(0, 0, 'sky');
+    sky = game.add.sprite(-600, 800, 'sky');
 
     // trying to add dandelion
     dandelion = game.add.sprite(400, 290, 'dandelion');
