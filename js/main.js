@@ -1,6 +1,5 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-//var seedling;
-var seedlingBrown;
+var player;
 var baddie;
 var platforms;
 var cursors;
@@ -22,7 +21,6 @@ function preload() {
   game.load.image('star', 'assets/star.png');
   game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
   'assets/MushroomGuyNew.json');
-  //game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
   'assets/DandelionEnemyClone.json');
@@ -73,27 +71,23 @@ function create() {
     ledge.body.immovable = true;
 
     // The seedling and its settings
-    //seedling = game.add.sprite(32, game.world.height - 200, 'seedling');
-    seedlingBrown = game.add.sprite(32, game.world.height - 420, 'seedlingBrown');
+    player = game.add.sprite(32, game.world.height - 420, 'seedlingBrown');
 
     //add dog thing
     baddie = game.add.sprite(396, game.world.height - 100, 'baddie');
 
-    //  We need to enable physics on the seedling
-    //game.physics.arcade.enable(seedling);
-    game.physics.arcade.enable(seedlingBrown);
+    //  We need to enable physics on the player and the other characters
+
+    game.physics.arcade.enable(player);
     game.physics.arcade.enable(baddie);
     game.physics.arcade.enable(dandelion);
     game.physics.arcade.enable(mushroomguy);
 
     //  seedling physics properties. Give the little guy a slight bounce.
-    //seedling.body.bounce.y = 0.2;
-    //seedling.body.gravity.y = 300;
-    //seedling.body.collideWorldBounds = true;
   
-    seedlingBrown.body.bounce.y = 0.2;
-    seedlingBrown.body.gravity.y = 300;
-    seedlingBrown.body.collideWorldBounds = true;
+    player.body.bounce.y = 0.2;
+    player.body.gravity.y = 300;
+    player.body.collideWorldBounds = true;
   
     baddie.body.gravity.y = 300;
     baddie.body.collideWorldBounds = true;
@@ -109,7 +103,7 @@ function create() {
     //seedling.animations.add('left', [0, 1, 2, 3], 10, true);
     //seedling.animations.add('right', [5, 6, 7, 8], 10, true);
   
-    seedlingBrown.animations.add('bobble');
+    player.animations.add('bobble');
 
     stars = game.add.group();
 
@@ -155,38 +149,38 @@ function update() {
       baddie.body.velocity.x = 100;
     }
     //game.physics.arcade.collide(seedling, platforms);
-    game.physics.arcade.collide(seedlingBrown, platforms);
+    game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
     game.physics.arcade.collide(dandelion, platforms);
-    game.physics.arcade.collide(seedlingBrown, dandelion);
+    game.physics.arcade.collide(player, dandelion);
 
-    game.physics.arcade.overlap(seedlingBrown, stars, collectStar, null, this);
-    game.physics.arcade.overlap(seedlingBrown, baddie, seedlingDies, null, this);
-    game.physics.arcade.overlap(seedlingBrown, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
+    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+    game.physics.arcade.overlap(player, baddie, seedlingDies, null, this);
+    game.physics.arcade.overlap(player, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
 
     //  Reset the seedlings velocity (movement)
-    seedlingBrown.body.velocity.x = 0;
+    player.body.velocity.x = 0;
 
     if (cursors.left.isDown)
     {
         //  Move to the left
-        seedlingBrown.body.velocity.x = -150;
+        player.body.velocity.x = -150;
 
-        seedlingBrown.animations.play('bobble', 8, true);
+        player.animations.play('bobble', 8, true);
     }
     else if (cursors.right.isDown)
     {
         //  Move to the right
-        seedlingBrown.body.velocity.x = 150;
+        player.body.velocity.x = 150;
 
-        seedlingBrown.animations.play('bobble', 8, true);
+        player.animations.play('bobble', 8, true);
     }
     else if (cursors.up.isDown)
     {
       if (characterJumped == false)
       {
-        seedlingBrown.body.velocity.y = -300;
+        player.body.velocity.y = -300;
         //console.log("the guy jumps");
         //character can only jump after it jumps once/lands on gruond??
       }
@@ -195,20 +189,19 @@ function update() {
     else
     {
         //  Stand still
-        seedlingBrown.animations.stop();
-
-        seedlingBrown.frame = 4;
+        player.animations.stop();
+        player.frame = 4;
     }
 
     //  Allow the seedling to jump if they are touching the ground.
-    if (cursors.up.isDown && seedlingBrown.body.touching.down)
+    if (cursors.up.isDown && player.body.touching.down)
     {
-        seedlingBrown.body.velocity.y = -150;
+        player.body.velocity.y = -150;
     }
         //game.camera.x = seedling.x;
         //game.camera.y = seedling.y;
-        console.log("seedlingBrown.x: " + seedlingBrown.x);
-        console.log("seedlingBrown.y: " + seedlingBrown.y);
+        console.log("player.x: " + player.x);
+        console.log("player.y: " + player.y);
         //console.log(game.camera.x + "This is the game camera");
 
 }
@@ -225,8 +218,8 @@ function collectStar (seedling, star) {
 }
 function seedlingDies (seedling, baddie) {
   
-  console.log("seedlingBrown.x: " + seedlingBrown.x);
-  console.log("seedlingBrown.y: " + seedlingBrown.y);
+  console.log("player.x: " + player.x);
+  console.log("player.y: " + player.y);
   console.log("seedling.x: " + seedling.x);
   console.log("seedling.y: " + seedling.y);
   console.log("baddie.x: " + baddie.x);
