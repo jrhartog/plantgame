@@ -16,7 +16,7 @@ var mushroomguy;
 var characters;
 
 function preload() {
-  game.load.image('sky', 'assets/field_and_sky.jpg');
+  game.load.image('sky', 'assets/field_and_sky.png');
   game.load.image('ground', 'assets/platform.png');
   game.load.image('star', 'assets/star.png');
   game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
