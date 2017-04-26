@@ -130,7 +130,7 @@ function create() {
 //              'down' : Phaser.KeyCode.S, 'left' : Phaser.KeyCode.A,
 //              'right' : Phaser.KeyCode.D});
 
-    game.camera.follow(seedlingBrown);
+    game.camera.follow(player);
 
 }
 
@@ -148,7 +148,6 @@ function update() {
     {
       baddie.body.velocity.x = 100;
     }
-    //game.physics.arcade.collide(seedling, platforms);
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
