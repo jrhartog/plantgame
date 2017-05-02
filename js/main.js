@@ -16,6 +16,24 @@ var mushroomguy;
 var characters;
 
 function preload() {
+  /* images available, W x H of total PNG (including all frames) in pixels.
+    DandelionEnemyClone.png: PNG image data, 90 x 180, 8-bit/color RGBA, non-interlaced
+    MushroomGuyNew.png:      PNG image data, 100 x 59, 8-bit/color RGBA, non-interlaced
+    Plant_enemy_draft.png:   PNG image data, 4960 x 992, 8-bit/color RGBA, non-interlaced
+    Pot.png:                 PNG image data, 32 x 32, 8-bit/color RGBA, non-interlaced
+    SeedlingBrown.png:       PNG image data, 211 x 177, 8-bit/color RGBA, non-interlaced
+    SeedlingBrownDying.png:  PNG image data, 211 x 177, 8-bit/color RGBA, non-interlaced
+    baddie.png:              PNG image data, 128 x 32, 8-bit/color RGBA, non-interlaced
+    diamond.png:             PNG image data, 32 x 28, 8-bit/color RGBA, non-interlaced
+    dude.png:                PNG image data, 288 x 48, 8-bit/color RGBA, non-interlaced
+    field_and_sky.png:       PNG image data, 1600 x 1200, 8-bit/color RGB, non-interlaced
+    firstaid.png:            PNG image data, 32 x 32, 8-bit/color RGBA, non-interlaced
+    mushroomGuy.png:         PNG image data, 1364 x 800, 8-bit/color RGBA, non-interlaced
+    platform.png:            PNG image data, 400 x 32, 8-bit/color RGB, non-interlaced
+    seedling.png:            PNG image data, 489 x 96, 8-bit/color RGBA, non-interlaced
+    sky.png:                 PNG image data, 800 x 600, 8-bit colormap, non-interlaced
+    star.png:                PNG image data, 24 x 22, 8-bit/color RGBA, non-interlaced
+  */
 
   // Make all the different assets available to the game
 
@@ -49,7 +67,7 @@ function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //  A simple background for our game
-    sky = game.add.sprite(-600, 800, 'sky');
+    sky = game.add.sprite(0, 0, 'sky');
 
     // trying to add dandelion
     dandelion = game.add.sprite(400, 290, 'dandelion');
@@ -69,7 +87,7 @@ function create() {
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     ground.scale.setTo(5, 2);
-    sky.scale.setTo(4, 2);
+    //sky.scale.setTo(4, 2);
 
     //  This stops it from falling away when you jump on it
     ground.body.immovable = true;
