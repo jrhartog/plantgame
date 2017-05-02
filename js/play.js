@@ -1,29 +1,11 @@
 var playState = {
-// the player
-var player;
+  quotes : {'pokemon1':'Pikachu, I choose you!',
+              'pokemon2':'Ya snooze ya lose.'},
 
-// scene elements
-var platforms;
-var cursors;
-var sky;
-
-// non-playing characters
-var baddie;
-var dandelion;
-var mushroomguy;
-
-// treasures and currency
-var stars;
-var quotes = {'pokemon1':'Pikachu, I choose you!',
-              'pokemon2':'Ya snooze ya lose.'};
-
-// scores, healt points, and levels
-var score = 0;
-var scoreText;
-
-
-
-   create : function() {
+  // scores, healt points, and levels
+  score : 0,
+  scoreText : '',
+  create : function() {
 
     //  A simple background for our game
     this.sky = game.add.sprite(0, 0, 'sky');
@@ -122,10 +104,9 @@ var scoreText;
 
     game.camera.follow(this.player);
 
-   };
-
-var characterJumped = false
-//so that the character can only jump once?
+    }, 
+     //characterJumped = false,
+     //so that the character can only jump once?
 update : function {
 
     // baddie turns around if it reaches the horizontal edges of the world
@@ -198,7 +179,7 @@ update : function {
         console.log("this.player.y: " + this.player.y);
         //console.log(game.camera.x + "This is the game camera");
 
-}
+},
 collectStar : function(seedling, star) {
 
     // Removes the star from the screen
@@ -208,6 +189,7 @@ collectStar : function(seedling, star) {
     this.score += 10;
     this.scoreText.text = 'Score: ' + score;
 }
+};
 
 function seedlingDies (seedling, baddie) {
   
@@ -239,5 +221,3 @@ function speak (seedling, mushroomguy) {
     text.x = mushroomguy.x + 10
     text.y = mushroomguy.y + 10;
 }
-
-};

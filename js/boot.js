@@ -7,5 +7,5 @@ var bootState = {
 
         // load the next state (loads all assets, etc.)
         game.state.start('load');
-    };
+    }
 };
