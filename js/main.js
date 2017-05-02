@@ -16,21 +16,34 @@ var mushroomguy;
 var characters;
 
 function preload() {
+
+  // Make all the different assets available to the game
+
+  // background options
   game.load.image('sky', 'assets/field_and_sky.png');
+
+  // ledges and other obstacles
   game.load.image('ground', 'assets/platform.png');
+
+  //  treasures to collect to gain points
   game.load.image('star', 'assets/star.png');
+
+  // non-playing characters
   game.load.atlasJSONArray('mushroomguy', 'assets/MushroomGuyNew.png',
   'assets/MushroomGuyNew.json');
   game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32, 4);
   game.load.atlasJSONArray('dandelion', 'assets/DandelionEnemyClone.png',
   'assets/DandelionEnemyClone.json');
+
+  // player skin options
   game.load.atlasJSONArray('seedlingBrown', 'assets/SeedlingBrown.png',
                            'assets/SeedlingBrown.json');
+  game.load.spritesheet('seedling', 'assets/seedling.png', 54, 96, 9);
 }
 
 function create() {
 
-    game.world.setBounds(0, 0, 2000, 600);
+    game.world.setBounds(-2000, -600, 2000, 600);
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -137,8 +150,8 @@ function create() {
 var characterJumped = false
 //so that the character can only jump once?
 function update() {
-    //  Collide the seedling and the stars with the platforms
 
+    // baddie turns around if it reaches the horizontal edges of the world
     if (baddie.x == game.world.width - baddie.width)
     {
       baddie.body.velocity.x = -100;
@@ -148,12 +161,17 @@ function update() {
     {
       baddie.body.velocity.x = 100;
     }
+
+    // all the game elements collide with the platforms
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(baddie, platforms);
     game.physics.arcade.collide(dandelion, platforms);
+
+    // other collisions
     game.physics.arcade.collide(player, dandelion);
 
+    // other interactions
     game.physics.arcade.overlap(player, stars, collectStar, null, this);
     game.physics.arcade.overlap(player, baddie, seedlingDies, null, this);
     game.physics.arcade.overlap(player, mushroomguy, speak, null, {this:this, text:quotes.pokemon1});
