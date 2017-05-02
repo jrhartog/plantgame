@@ -49,10 +49,10 @@ var playState = {
 
     //  We need to enable physics on the player and the other characters
 
-    this.game.physics.arcade.enable(player);
-    this.game.physics.arcade.enable(baddie);
-    this.game.physics.arcade.enable(dandelion);
-    this.game.physics.arcade.enable(mushroomguy);
+    this.game.physics.arcade.enable(this.player);
+    this.game.physics.arcade.enable(this.baddie);
+    this.game.physics.arcade.enable(this.dandelion);
+    this.game.physics.arcade.enable(this.mushroomguy);
 
     //  seedling physics properties. Give the little guy a slight bounce.
   
