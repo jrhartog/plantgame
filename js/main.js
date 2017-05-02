@@ -1,19 +1,28 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '#game', { preload: preload, create: create, update: update });
+
+// the player
 var player;
-var baddie;
+
+// scene elements
 var platforms;
 var cursors;
-var stars;
 var sky;
 
+// non-playing characters
+var baddie;
+var dandelion;
+var mushroomguy;
+
+// treasures and currency
+var stars;
 var quotes = {'pokemon1':'Pikachu, I choose you!',
               'pokemon2':'Ya snooze ya lose.'};
 
+// scores, healt points, and levels
 var score = 0;
 var scoreText;
-var dandelion;
-var mushroomguy;
-var characters;
+
+
 
 function preload() {
   /* images available, W x H of total PNG (including all frames) in pixels.
@@ -61,7 +70,7 @@ function preload() {
 
 function create() {
 
-    game.world.setBounds(-2000, -600, 2000, 600);
+    //game.world.setBounds(-2000, -600, 2000, 600);
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -248,9 +257,8 @@ function collectStar (seedling, star) {
     //  Add and update the score
     score += 10;
     scoreText.text = 'Score: ' + score;
-
-
 }
+
 function seedlingDies (seedling, baddie) {
   
   console.log("player.x: " + player.x);
@@ -266,7 +274,6 @@ function seedlingDies (seedling, baddie) {
 
   text.x = 200;
   text.y = 200;
-
 }
 
 function speak (seedling, mushroomguy) {
