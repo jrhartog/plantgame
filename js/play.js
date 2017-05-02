@@ -18,13 +18,12 @@ var playState = {
     this.mushroomguy = game.add.sprite(1000, 200, 'mushroomguy')
     //  The platforms group contains the ground and the 2 ledges we can jump on
     this.platforms = game.add.group();
-    this.characters = game.add.group();
 
     //  We will enable physics for any object that is created in this group
     this.platforms.enableBody = true;
 
     // Here we create the ground.
-    this.ground = platforms.create(0, game.world.height - 64, 'ground');
+    this.ground = this.platforms.create(0, game.world.height - 64, 'ground');
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
     this.ground.scale.setTo(5, 2);
@@ -34,11 +33,11 @@ var playState = {
     this.ground.body.immovable = true;
 
     //  Now let's create two ledges
-    this.ledge = platforms.create(200, 400, 'ground');
+    this.ledge = this.platforms.create(200, 400, 'ground');
 
     this.ledge.body.immovable = true;
 
-    this.ledge = platforms.create(-150, 250, 'ground');
+    this.ledge = this.platforms.create(-150, 250, 'ground');
 
     this.ledge.body.immovable = true;
 
