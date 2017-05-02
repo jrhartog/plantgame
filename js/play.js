@@ -107,7 +107,7 @@ var playState = {
     }, 
      //characterJumped = false,
      //so that the character can only jump once?
-update : function {
+update : function() {
 
     // baddie turns around if it reaches the horizontal edges of the world
     if (this.baddie.x == game.world.width - this.baddie.width)
