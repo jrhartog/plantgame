@@ -5,6 +5,9 @@ var playState = {
   // scores, healt points, and levels
   score : 0,
   scoreText : '',
+  init : function(spriteKey) {
+      this.spriteKey = spriteKey;  
+  }
   create : function() {
 
     //  A simple background for our game
@@ -42,7 +45,7 @@ var playState = {
     this.ledge.body.immovable = true;
 
     // The seedling and its settings
-    this.player = game.add.sprite(32, game.world.height - 420, 'seedlingBrown');
+    this.player = game.add.sprite(32, game.world.height - 420, spriteKey);
 
     //add dog thing
     this.baddie = game.add.sprite(396, game.world.height - 100, 'baddie');
