@@ -4,21 +4,27 @@ var playState = {
 
   // scores, healt points, and levels
   score : 0,
+  level : 0,
+  hp : 100,
   scoreText : '',
   init : function(spriteKey) {
          this.spriteKey = spriteKey;  
       },
   create : function() {
 
+    // the world:
+    // -800,-600                 800,-600
+    //                 0,0 
+    // -800,600                  800,600
     //  A simple background for our game
-    this.sky = game.add.sprite(0, 0, 'sky');
+    this.sky = game.add.sprite(-800, -600, 'sky');
 
     // trying to add dandelion
     this.dandelion = game.add.sprite(400, 290, 'dandelion');
     this.dandelion.animations.add('blinking');
     this.dandelion.animations.play('blinking', 2, true);
 
-    this.mushroomguy = game.add.sprite(1000, 200, 'mushroomguy')
+    this.mushroomguy = game.add.sprite(600, 200, 'mushroomguy')
     //  The platforms group contains the ground and the 2 ledges we can jump on
     this.platforms = game.add.group();
 
@@ -26,11 +32,10 @@ var playState = {
     this.platforms.enableBody = true;
 
     // Here we create the ground.
-    this.ground = this.platforms.create(0, game.world.height - 64, 'ground');
+    this.ground = this.platforms.create(-800, game.world.bottom - 64, 'ground');
 
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    this.ground.scale.setTo(5, 2);
-    //this.sky.scale.setTo(4, 2);
+    this.ground.scale.setTo(4, 2);
 
     //  This stops it from falling away when you jump on it
     this.ground.body.immovable = true;
@@ -45,7 +50,9 @@ var playState = {
     this.ledge.body.immovable = true;
 
     // The seedling and its settings
-    this.player = game.add.sprite(32, game.world.height - 420, this.spriteKey);
+    this.player = game.add.sprite(32, game.world.bottom - 160, this.spriteKey);
+    this.player.health = this.hp
+    this.player.maxHealth = 100;
 
     //add dog thing
     this.baddie = game.add.sprite(396, game.world.height - 100, 'baddie');
@@ -68,7 +75,7 @@ var playState = {
     this.baddie.body.bounce.y = 0.2;
     this.baddie.body.velocity.x = 100;
 
-    this.dandelion.body.bounce.y = 0.2;
+    this.dandelion.body.bounce.y = 0.5;
     this.dandelion.body.gravity.y = 300;
     this.dandelion.body.collideWorldBounds = true;
     this.dandelion.body.velocity.x = -100;
@@ -84,10 +91,15 @@ var playState = {
     this.stars.enableBody = true;
 
     //  Here we'll create 12 of them evenly spaced apart
+    var xx;
+    var yy;
     for (var i = 0; i < 12; i++)
     {
         //  Create a star inside of the 'stars' group
-        var star = this.stars.create(i * 70, 0, 'star');
+        xx = game.rnd.integerInRange(-800,800);
+        yy = game.rnd.integerInRange(-600,600);
+  
+        var star = this.stars.create(xx, yy, 'star');
 
         //  Let gravity do its thing
         star.body.gravity.y = 6;
@@ -105,10 +117,10 @@ var playState = {
 //              'right' : Phaser.KeyCode.D});
 
     game.camera.follow(this.player);
+    
+    this.characterJumped = false;
 
     }, 
-     //characterJumped = false,
-     //so that the character can only jump once?
 update : function() {
 
     // baddie turns around if it reaches the horizontal edges of the world
@@ -129,7 +141,7 @@ update : function() {
     game.physics.arcade.collide(this.dandelion, this.platforms);
 
     // other collisions
-    game.physics.arcade.collide(this.player, this.dandelion);
+    game.physics.arcade.collide(this.player, this.dandelion, this.doDamage, null, this);
 
     // other interactions
     game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
@@ -141,6 +153,9 @@ update : function() {
 
     if (this.cursors.left.isDown)
     {
+        if (game.paused) {
+            game.paused = false;
+        }
         //  Move to the left
         this.player.body.velocity.x = -150;
 
@@ -162,7 +177,6 @@ update : function() {
         //character can only jump after it jumps once/lands on gruond??
       }
     }
-
     else
     {
         //  Stand still
@@ -177,8 +191,13 @@ update : function() {
     }
         //game.camera.x = seedling.x;
         //game.camera.y = seedling.y;
-        console.log("this.player.x: " + this.player.x);
-        console.log("this.player.y: " + this.player.y);
+    console.log("this.player.health: " + this.player.health);
+    console.log("this.score: " + this.score);
+    console.log("bounds: " + game.world.bounds);
+
+    // wrap around when player reaches world bounds
+    //game.world.wrap(this.player,0,true);
+
         //console.log(game.camera.x + "This is the game camera");
 
 },
@@ -189,14 +208,21 @@ collectStar : function(seedling, star) {
 
     //  Add and update the score
     this.score += 10;
-    this.scoreText.text = 'Score: ' + score;
+    this.scoreText.text = 'Score: ' + this.score;
+},
+doDamage : function() {
+    this.player.damage(1);
+    if (! this.player.alive) {
+        game.state.start('end',true,false,this.score,this.hp,this.level)
+    };
 }
+
 };
 
 function seedlingDies (seedling, baddie) {
   
-  console.log("player.x: " + player.x);
-  console.log("player.y: " + player.y);
+  console.log("player.x: " + this.player.x);
+  console.log("player.y: " + this.player.y);
   console.log("seedling.x: " + seedling.x);
   console.log("seedling.y: " + seedling.y);
   console.log("baddie.x: " + baddie.x);
@@ -210,8 +236,18 @@ function seedlingDies (seedling, baddie) {
   text.y = 200; 
 
   // go to end screen (still need to be made, just go back to menu)
-  //game.state.start('menu');
+  game.state.start('end',true,false,this.score,this.hp,this.level);
 }
+
+//function doDamage(seedling, other) {
+//    console.log("do damage");
+//    // first remove the overlap
+//    
+//    seedling.damage(20);
+//    if ( !seedling.alive ) {
+//        game.state.start('end',true,false,this.score,seedling.health,this.level);
+//    }
+//}
 
 function speak (seedling, mushroomguy) {
 
@@ -222,4 +258,5 @@ function speak (seedling, mushroomguy) {
 
     text.x = mushroomguy.x + 10
     text.y = mushroomguy.y + 10;
+    seedling.heal(20);
 }
