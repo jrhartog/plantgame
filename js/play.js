@@ -45,7 +45,7 @@ var playState = {
     this.ledge.body.immovable = true;
 
     // The seedling and its settings
-    this.player = game.add.sprite(32, game.world.height - 420, spriteKey);
+    this.player = game.add.sprite(32, game.world.height - 420, this.spriteKey);
 
     //add dog thing
     this.baddie = game.add.sprite(396, game.world.height - 100, 'baddie');
