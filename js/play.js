@@ -6,8 +6,8 @@ var playState = {
   score : 0,
   scoreText : '',
   init : function(spriteKey) {
-      this.spriteKey = spriteKey;  
-  }
+         this.spriteKey = spriteKey;  
+      },
   create : function() {
 
     //  A simple background for our game
