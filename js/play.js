@@ -207,7 +207,7 @@ function seedlingDies (seedling, baddie) {
   text.y = 200; 
 
   // go to end screen (still need to be made, just go back to menu)
-  game.state.start('menu');
+  //game.state.start('menu');
 }
 
 function speak (seedling, mushroomguy) {
