@@ -5,8 +5,9 @@ var playState = {
   // scores, healt points, and levels
   score : 0,
   level : 0,
-  hp : 100,
+  hpMax : 100,
   scoreText : '',
+  healthText : '',
   init : function(spriteKey) {
          this.spriteKey = spriteKey;  
       },
@@ -51,11 +52,11 @@ var playState = {
 
     // The seedling and its settings
     this.player = game.add.sprite(32, game.world.bottom - 160, this.spriteKey);
-    this.player.health = this.hp
-    this.player.maxHealth = 100;
+    this.player.health = this.hpMax
+    this.player.maxHealth = this.hpMax;
 
     //add dog thing
-    this.baddie = game.add.sprite(396, game.world.height - 100, 'baddie');
+    this.baddie = game.add.sprite(396, game.world.bottom - 160, 'baddie');
 
     //  We need to enable physics on the player and the other characters
 
@@ -81,8 +82,8 @@ var playState = {
     this.dandelion.body.velocity.x = -100;
 
     //  Our two animations, walking left and right.
-    //seedling.animations.add('left', [0, 1, 2, 3], 10, true);
-    //seedling.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.player.animations.add('left', [0, 1, 2, 3], 10, true);
+    this.player.animations.add('right', [5, 6, 7, 8], 10, true);
   
     this.player.animations.add('bobble');
 
@@ -108,8 +109,10 @@ var playState = {
         star.body.bounce.y = 0.7 + Math.random() * 0.2;
     }
 
-    this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    this.scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000', backgroundColor: 'rgba(100,100,100,0.5)' });
     this.scoreText.fixedToCamera = true;
+    this.healthText = game.add.text(16, 56, 'health: ' + this.hpMax, { fontSize: '32px', fill: '#000', backgroundColor: 'rgba(100,100,100,0.5)' });
+    this.healthText.fixedToCamera = true;
 
     this.cursors = game.input.keyboard.createCursorKeys();
 //    cursors = game.input.keyboard.addKeys({'up' : Phaser.KeyCode.W,
@@ -145,8 +148,8 @@ update : function() {
 
     // other interactions
     game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
-    game.physics.arcade.overlap(this.player, this.baddie, seedlingDies, null, this);
-    game.physics.arcade.overlap(this.player, this.mushroomguy, speak, null, {this:this, text:this.quotes.pokemon1});
+    game.physics.arcade.overlap(this.player, this.baddie, this.seedlingDies, null, this);
+    game.physics.arcade.overlap(this.player, this.mushroomguy, this.speak, null, {this:this, text:this.quotes.pokemon1});
 
     //  Reset the seedlings velocity (movement)
     this.player.body.velocity.x = 0;
@@ -159,14 +162,14 @@ update : function() {
         //  Move to the left
         this.player.body.velocity.x = -150;
 
-        this.player.animations.play('bobble', 8, true);
+        this.player.animations.play('left', 4, true);
     }
     else if (this.cursors.right.isDown)
     {
         //  Move to the right
         this.player.body.velocity.x = 150;
 
-        this.player.animations.play('bobble', 8, true);
+        this.player.animations.play('right', 4, true);
     }
     else if (this.cursors.up.isDown)
     {
@@ -212,15 +215,12 @@ collectStar : function(seedling, star) {
 },
 doDamage : function() {
     this.player.damage(1);
+    this.healthText.text = 'health: ' + this.player.health;
     if (! this.player.alive) {
-        game.state.start('end',true,false,this.score,this.hp,this.level)
+        game.state.start('end',true,false,this.score,this.player.health,this.level)
     };
-}
-
-};
-
-function seedlingDies (seedling, baddie) {
-  
+},
+seedlingDies : function(seedling, baddie) {
   console.log("player.x: " + this.player.x);
   console.log("player.y: " + this.player.y);
   console.log("seedling.x: " + seedling.x);
@@ -236,20 +236,9 @@ function seedlingDies (seedling, baddie) {
   text.y = 200; 
 
   // go to end screen (still need to be made, just go back to menu)
-  game.state.start('end',true,false,this.score,this.hp,this.level);
-}
-
-//function doDamage(seedling, other) {
-//    console.log("do damage");
-//    // first remove the overlap
-//    
-//    seedling.damage(20);
-//    if ( !seedling.alive ) {
-//        game.state.start('end',true,false,this.score,seedling.health,this.level);
-//    }
-//}
-
-function speak (seedling, mushroomguy) {
+  game.state.start('end',true,false,this.score,this.player.health,this.level);
+  },
+speak : function(seedling, mushroomguy) {
 
     console.log(this.text);
     var style = { font: "12px Sans", fill: "black", wordWrap: true, align: "center", backgroundColor: "transparent" };
@@ -259,4 +248,5 @@ function speak (seedling, mushroomguy) {
     text.x = mushroomguy.x + 10
     text.y = mushroomguy.y + 10;
     seedling.heal(20);
-}
+    }
+};
